@@ -22,6 +22,17 @@
 			this.bind( 'change', this.onChange );
 		},
 
+		removeFromAlbum: function ()
+		{
+			this.trigger( 'remove_from_album', this );
+		},
+
+		onAfterRemoveFromAlbum: function ()
+		{
+			debugger;
+			this.trigger( 'removed_from_album', this );
+		},
+
 		onChange: function ( model, options )
 		{
 			if ( model.hasChanged() )

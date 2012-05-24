@@ -21,7 +21,7 @@
 
 			this.model.bind( 'error', this.showError, this );
 			this.model.bind( 'change', this.render, this );
-			this.model.bind( 'destroy', this.remove, this );
+			this.model.bind( 'removed_from_album', this.remove, this );
 		},
 
 		showError: function ( model, errorMessage )
@@ -52,7 +52,7 @@
 
 		onDelete: function ()
 		{
-//			this.model.destroy();
+			this.model.removeFromAlbum();
 		}
 
 	} );

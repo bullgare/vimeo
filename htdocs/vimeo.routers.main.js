@@ -25,8 +25,7 @@
 
 		album: function ( id )
 		{
-			/*var VideoList = */new Vimeo.Models.Album;
-			/*var view = */new Vimeo.Views.Album( Vimeo.Models.Video, id );
+			/*var view = */new Vimeo.Views.Album( id );
 		},
 
 		error: function ( error )
