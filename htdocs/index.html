@@ -40,9 +40,7 @@
 	<body>
 		<div id="js-albums-wrapper">
 
-			<header>
-				<h1>Vimeo albums</h1>
-				<div id="js-create-new-album"></div>
+			<header id="js-header">
 			</header>
 
 			<section id="js-main">
@@ -123,6 +121,15 @@
 				Video ID*: <input id="js-new-album-video" type="text" /><br />
 				Description: <input id="js-new-album-description" type="text" /><br />
 				<a href="javascript:void(0)" id="js-create-new-album-button">create</a>
+		</script>
+
+		<script type="text/template" id="_-template-header-main">
+				<h1>Vimeo albums</h1>
+				<div id="js-create-new-album"></div>
+		</script>
+
+		<script type="text/template" id="_-template-header-album">
+				<h1>Album <%= id %></h1>
 		</script>
 
 		<script type="text/template" id="_-template-album-stats">

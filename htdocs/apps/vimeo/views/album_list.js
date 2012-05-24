@@ -33,6 +33,8 @@
 			this.albums.bind( 'reset', this.addAll, this );
 			this.albums.bind( 'all', this.render, this );
 
+			this.$header = $( '#js-header' );
+			this.$header.html( _.template( $( '#_-template-header-main' ).html() )() );
 			this.$footer = $( '#js-footer' );
 			this.$create = $( '#js-create-new-album' );
 			this.render();
@@ -57,13 +59,10 @@
 
 			if ( this.albums.length )
 			{
-//				this.main.show();
 				this.$footer.show();
 				this.$footer.html( this.templateStats( {totalCount: totalCount} ) );
 			}
-			else
-			{
-//				this.main.hide();
+			else {
 				this.$footer.hide();
 			}
 		},

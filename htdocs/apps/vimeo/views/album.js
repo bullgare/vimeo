@@ -9,6 +9,9 @@
 
 		initialize: function ( ModelId )
 		{
+			this.$header = $( '#js-header' );
+			this.$header.html( _.template( $( '#_-template-header-album' ).html() )( { id: ModelId } ) );
+
 			this.setElement( '#js-main' );
 			this.model = new Vimeo.Models.Album( { id: ModelId } );
 //			this.model.fetch( {data: { method: "albums.getAll", params: { user_id: Vimeo.Options.userId } } } );
