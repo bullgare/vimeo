@@ -87,19 +87,6 @@
 		{
 			var me = this;
 
-//			this.albums.create(
-//				{
-//					title: this.$inputTitle.val(),
-//					video_id: this.$inputVideo.val(),
-//					description: this.$inputDescription.val()
-//				},
-//				{
-//					contentType: 'text/plain'
-//				}
-//			);
-
-//			$.post( Vimeo.Options.mainUrl )
-
 			var modelParams = {
 				title: this.$inputTitle.val(),
 				video_id: this.$inputVideo.val(),
@@ -123,25 +110,6 @@
 						me.showError( Response.err.msg + ( 'expl' in Response.err ? ( ': ' + Response.err.expl ) : '' ) );
 					}
 				} );
-
-
-
-//			this.albums.create(
-//				modelParams,
-//				{
-//					wait: true,
-//					contentType: 'text/plain',
-//					data: $.param( { method: 'albums.create', params: $.extend( {}, { user_id: Vimeo.Options.userId }, modelParams ) } ),
-//					success: function () {
-//						me.$inputTitle.val( '' );
-//						me.$inputVideo.val( '' );
-//						me.$inputDescription.val( '' );
-//					},
-//					error: function ( model, response, options ) {
-//						me.showError( response.statusText.toString() );
-//					}
-//				}
-//			);
 
 		},
 

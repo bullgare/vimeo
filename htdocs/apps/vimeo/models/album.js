@@ -28,9 +28,7 @@
 						month = '0' + month;
 					}
 					return dt.getFullYear() + '-' + month + '-' + dt.getDay() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
-				},
-			// TODO thumbnails
-				imgSrc: ""
+				}
 			};
 		},
 
@@ -60,15 +58,17 @@
 			}
 		},
 
-		/*sync: function ( method, model, options )
+		sync: function ( method, model, options )
 		{
 			if ( ! model.get( 'id' ) ) {
 				Backbone.sync( method, model, options );
 			}
-			else {
-			// see onChange method
+			else
+			{
+			// see onChange method - no sync for update and delete
+				this.trigger( method );
 			}
-		},*/
+		},
 
 		// Remove this Album and delete its view.
 		clear: function ()
