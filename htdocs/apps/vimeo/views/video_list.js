@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * Video collection view
+ */
 	Vimeo.Views.VideoList = Backbone.View.extend( {
 
 		tagName: 'div',
@@ -14,6 +17,11 @@
 			'click .js-search-cancel': 'closeSearchResults'
 		},
 
+	/**
+	 *
+	 * @param {Vimeo.Collections.VideoList} Videos
+	 * @param {int} AlbumId
+	 */
 		initialize: function ( Videos, AlbumId )
 		{
 			this.collection = Videos;
@@ -21,7 +29,6 @@
 
 			this.collection.bind( 'add', this.addOne, this );
 			this.collection.bind( 'reset', this.addAll, this );
-//			this.collection.bind( 'all', this.render, this );
 
 			this.template = _.template( $( '#_-template-video-list' ).html() );
 			this.render();
@@ -29,14 +36,11 @@
 			this.collection.fetch( { data: { method: "albums.getVideos", params: { user_id: Vimeo.Options.userId, album_id: this.albumId } } } );
 
 			this.collectionSearchVideos = new Vimeo.Collections.VideoList;
-
-//			this.model = new ModelObj( { id: ModelId } );
-//			this.model.fetch( {data: { method: "albums.getAll", params: { user_id: Vimeo.Options.userId } } } );
-
 		},
 
 		render: function ()
 		{
+		// no rerendering after start (to prevent video playback reset)
 			if ( ! this.hasOwnProperty( 'alreadyRendered' ) )
 			{
 				this.$el.html( this.template() );
@@ -47,18 +51,24 @@
 			return this;
 		},
 
-		addOne: function ( video )
+	/**
+	 * Adding video to collection
+	 * @param {Vimeo.Models.Video} Video
+	 */
+		addOne: function ( Video )
 		{
-			var view = new Vimeo.Views.Video( { model: video } );
+			var view = new Vimeo.Views.Video( { model: Video } );
 			this.$( '.js-videos' ).append( view.render().$el );
 		},
 
-		// Add all items in the **Albums** collection at once.
 		addAll: function ()
 		{
 			this.collection.each( this.addOne, this );
 		},
 
+	/**
+	 * Searching for videos by tags
+	 */
 		findVideos: function ()
 		{
 			var me = this,
@@ -68,12 +78,16 @@
 			}
 			else
 			{
-				$.post( Vimeo.Options.mainUrl, { method: "videos.getByTag", params: { user_id: Vimeo.Options.userId, tag: tagText, per_page: 10 }, dataType: 'json' } ).
+				$.post(
+					Vimeo.Options.mainUrl,
+					{
+						method: "videos.getByTag",
+						params: { user_id: Vimeo.Options.userId, tag: tagText, per_page: 10 }
+					},
+					null,
+					'json'
+				).
 					success( function ( Response ) {
-						if ( typeof Response !== 'object' ) {
-							Response = JSON.parse( Response );
-						}
-
 						if ( 'videos' in Response && 'video' in Response.videos )
 						{
 							var videosData = Response.videos.video;
@@ -94,13 +108,19 @@
 								me.$buttonHide.hide();
 							}
 						}
+						else if ( 'err' in Response ) {
+							Vimeo.Options.showError( Response );
+						}
 					} ).
 					error( function () {
 						Vimeo.Options.showError( 'error occured, please try again' );
 					} );
 			}
 		},
-
+	/**
+	 * Rendering search results
+	 * @param {Vimeo.Collections.VideoList} VideoList
+	 */
 		showSearchResults: function ( VideoList )
 		{
 			var me = this;
@@ -121,6 +141,7 @@
 						).
 							success( function ()
 							{
+							// adding video to album after server 'ok'
 								var modelToAdd = _.clone( model );
 								modelToAdd.set( { smallSize: false } );
 								me.collection.add( modelToAdd.toJSON() );
@@ -130,6 +151,9 @@
 			}, this );
 		},
 
+	/**
+	 * Hiding search results
+	 */
 		closeSearchResults: function ()
 		{
 			this.collectionSearchVideos.remove( this.collection.models );

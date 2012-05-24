@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * View for rendering a single video
+ */
 	Vimeo.Views.Video = Backbone.View.extend( {
 
 		tagName: 'li',
@@ -34,6 +37,7 @@
 
 		render: function ()
 		{
+		// no rerendering after load to prevent video playback reset
 			if ( ! this.hasOwnProperty( 'videoRendered' ) )
 			{
 				this.$el.
@@ -53,6 +57,9 @@
 			this.model.set( 'is_like', this.$( '.js-button-like' ).is( '.js-liked' ) ? 0 : 1 );
 		},
 
+		/**
+		 * Makes collection (Vimeo.Collections.VideoList) to remove this video
+		 */
 		onDelete: function ()
 		{
 			this.model.removeFromAlbum();

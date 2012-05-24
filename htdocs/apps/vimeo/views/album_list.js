@@ -5,59 +5,52 @@
 {
 	"use strict";
 
-	// album list main view
-
-	// Our overall **AppView** is the top-level piece of UI.
+/**
+ * Main page controller
+ */
 	Vimeo.Views.AlbumList = Backbone.View.extend( {
 
-		// Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"click .js-button-create-album": "create"
 		},
 
-		// At initialization we bind to the relevant events on the `Albums`
-		// collection, when items are added or changed. Kick things off by
-		// loading any preexisting tags that might be saved in *localStorage*.
+	/**
+	 *
+	 * @param {Vimeo.Collections.AlbumList} albums
+	 */
 		initialize: function ( albums )
 		{
 			this.albums = albums;
 
-			// Instead of generating a new element, bind to the existing skeleton of
-			// the App already present in the HTML.
+		// this element is already on page
 			this.setElement( $( "#js-albums-wrapper" ) );
 
+		// template for footer - albums stats
 			this.templateStats = _.template( $( '#_-template-album-stats' ).html() );
-			this.templateCreate = _.template( $( '#_-template-album-create' ).html() );
+		// template for header - creating an album
+			this.templateHeader = _.template( $( '#_-template-header-main' ).html() );
 
 			this.albums.bind( 'add', this.addOne, this );
 			this.albums.bind( 'reset', this.addAll, this );
 			this.albums.bind( 'all', this.render, this );
 
 			this.$header = $( '#js-header' );
-			this.$header.html( _.template( $( '#_-template-header-main' ).html() )() );
 			this.$footer = $( '#js-footer' );
-			this.$create = $( '#js-create-new-album' );
 			this.render();
-//			this.main = $( '#js-main' );
 
-//			this.albums.fetch( $.param( { contentType: 'text/plain', method: "albums.getAll", params: {user_id: appOptions.userId }} ) );
-//			this.albums.fetch( {contentType: 'application/json', data: $.param( { "method": "albums.getAll", "params": {"user_id": appOptions.userId}} )} );
+		// fetching all albums from server
 			this.albums.fetch( {data: { method: "albums.getAll", params: { user_id: Vimeo.Options.userId } } } );
 		},
 
-		// Re-rendering the App just means refreshing the statistics -- the rest
-		// of the app doesn't change.
+
 		render: function ( EventType )
 		{
 			var totalCount = this.albums.length;
 
-			if ( EventType === 'add' || _.isEmpty( this.$create.html() ) ) {
-				this.$create.html( this.templateCreate() );
+		// inputs for creating new albums are rendered only on add and on system start
+			if ( EventType === 'add' || _.isEmpty( $.trim( this.$header.html() ) ) ) {
+				this.$header.html( this.templateHeader() );
 			}
-
-			this.$inputTitle = $( "#js-new-album-title" );
-			this.$inputVideo = $( "#js-new-album-video" );
-			this.$inputDescription = $( "#js-new-album-description" );
 
 			if ( this.albums.length )
 			{
@@ -69,40 +62,48 @@
 			}
 		},
 
-		// Add a single album item to the list by creating a view for it, and
-		// appending its element to the `<ul>`.
+	/**
+	 * Add a single album item to the list by creating a view for it, and appending its element to the appropriate DOM element.
+	 * @param {Vimeo.Models.Album} album
+	 */
 		addOne: function ( album )
 		{
 			var view = new Vimeo.Views.AlbumShort( {model: album} );
 			$( "#js-album-list" ).append( view.render().el );
 		},
 
-		// Add all items in the **Albums** collection at once.
+	/**
+	 * Add all items in the **Albums** collection at once.
+	 */
 		addAll: function ()
 		{
 			this.albums.each( this.addOne );
 		},
 
-		create: function ( e )
+	/**
+	 * Create is just sending the request to the server and appending the model to collection
+	 */
+		create: function ()
 		{
 			var me = this;
 
 			var modelParams = {
-				title: this.$inputTitle.val(),
-				video_id: this.$inputVideo.val(),
-				description: this.$inputDescription.val()
+				title: this.$( ".js-new-album-title" ).val(),
+				video_id: this.$( ".js-new-album-video" ).val(),
+				description: this.$( ".js-new-album-description" ).val()
 			};
+		// TODO need validation before sending data to server (this.albums.model.validate( modelParams ); ?)
 
-			$.post( Vimeo.Options.mainUrl,
+			$.post(
+				Vimeo.Options.mainUrl,
 				{
 					method: "albums.create",
 					params: _.extend( { user_id: Vimeo.Options.userId }, modelParams )
-				}
+				},
+				null,
+				'json'
 			).
 				success( function ( Response ) {
-					if ( typeof Response !== 'object' ) {
-						Response = JSON.parse( Response );
-					}
 					if ( 'stat' in Response && Response.stat === 'ok' && 'album' in Response ) {
 						me.albums.add( _.extend( { id: Response.album[0].id }, modelParams ) );
 					}

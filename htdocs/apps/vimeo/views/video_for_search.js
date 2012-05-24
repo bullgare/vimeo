@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * View for rendering video list as a search result
+ */
 	Vimeo.Views.VideoForSearch = Backbone.View.extend( {
 
 		tagName: 'li',
@@ -30,6 +33,7 @@
 
 		render: function ()
 		{
+		// no rerendering after load to prevent video playback reset
 			if ( ! this.hasOwnProperty( 'videoRendered' ) )
 			{
 				this.$el.
@@ -44,6 +48,9 @@
 			return this;
 		},
 
+		/**
+		 * This makes video collection view (Vimeo.Views.VideoList) to add this video to it's collection
+		 */
 		onAdd: function ()
 		{
 			this.trigger( 'add_to_album', this.model );

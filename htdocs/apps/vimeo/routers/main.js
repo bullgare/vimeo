@@ -22,11 +22,11 @@
 	 */
 		albumList: function ()
 		{
-			// Create our global collection of **Albums**.
+		// Create our global collection of **Albums**.
 			var albums = new Vimeo.Collections.AlbumList;
 
-			// Finally, we kick things off by creating the **App**.
-			/*var App = */new Vimeo.Views.AlbumList( albums );
+		// Finally, we kick things off by creating the **App**.
+			new Vimeo.Views.AlbumList( albums );
 		},
 
 	/**
@@ -35,7 +35,7 @@
 	 */
 		album: function ( id )
 		{
-			/*var view = */new Vimeo.Views.Album( id );
+			new Vimeo.Views.Album( id );
 		},
 
 	/**

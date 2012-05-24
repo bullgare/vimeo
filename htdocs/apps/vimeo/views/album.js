@@ -5,8 +5,17 @@
 {
 	"use strict";
 
+/**
+ * Album page controller
+ */
 	Vimeo.Views.Album = Backbone.View.extend( {
 
+	/**
+	 * Creating an album model and
+	 * preparing Vimeo.Views.VideoList view to do the rest
+	 *
+	 * @param {int} ModelId
+	 */
 		initialize: function ( ModelId )
 		{
 			this.$header = $( '#js-header' );
@@ -14,7 +23,6 @@
 
 			this.setElement( '#js-main' );
 			this.model = new Vimeo.Models.Album( { id: ModelId } );
-//			this.model.fetch( {data: { method: "albums.getAll", params: { user_id: Vimeo.Options.userId } } } );
 			var collectionVideos = new Vimeo.Collections.VideoList;
 
 			collectionVideos.on( 'reset add', this.render, this );
@@ -29,15 +37,23 @@
 			this.$el.html( this.viewVideoList.render().$el );
 		},
 
+	/**
+	 * Clearing page on not existing album
+	 */
 		clearPage: function ()
 		{
 			this.$el.html( '' ).hide();
 		},
 
+	/**
+	 * Invoked from model's "remove_from_album" event
+	 * @param {Vimeo.Models.Video} Model model that needs to be removed
+	 */
 		removeVideo: function ( Model )
 		{
 			var me = this;
-			$.post( Vimeo.Options.mainUrl,
+			$.post(
+				Vimeo.Options.mainUrl,
 				{
 					method: "albums.removeVideo",
 					params:
