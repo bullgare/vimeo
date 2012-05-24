@@ -123,7 +123,7 @@
 							{
 								var modelToAdd = _.clone( model );
 								modelToAdd.set( { smallSize: false } );
-								me.addOne( modelToAdd );
+								me.collection.add( modelToAdd.toJSON() );
 							} );
 					} );
 				this.$( '.js-search-results' ).append( view.render().$el );
