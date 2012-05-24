@@ -11,10 +11,15 @@
 
 		url: Vimeo.Options.mainUrl,
 
-		parse: function ( response )
+		parse: function ( Response )
 		{
-			if ( 'videos' in response && 'video' in response.videos ) {
-				return response.videos.video;
+			if ( 'videos' in Response && 'video' in Response.videos ) {
+				return Response.videos.video;
+			}
+			else if ( 'err' in Response )
+			{
+				this.trigger( 'error404' );
+				Vimeo.Options.showError( Response );
 			}
 			return [];
 		}
