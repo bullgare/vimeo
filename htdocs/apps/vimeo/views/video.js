@@ -26,7 +26,7 @@
 
 		showError: function ( model, errorMessage )
 		{
-			alert( 'error in video `' + model.get( 'title' ) + '`: ' + errorMessage );
+			Vimeo.Options.showError( 'error in video `' + model.get( 'title' ) + '`: ' + errorMessage );
 		},
 
 		render: function ()

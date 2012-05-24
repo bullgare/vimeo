@@ -107,15 +107,10 @@
 						me.albums.add( _.extend( { id: Response.album[0].id }, modelParams ) );
 					}
 					else if ( 'err' in Response ) {
-						me.showError( Response.err.msg + ( 'expl' in Response.err ? ( ': ' + Response.err.expl ) : '' ) );
+						Vimeo.Options.showError( Response );
 					}
 				} );
 
-		},
-
-		showError: function ( errorMessage )
-		{
-			alert( errorMessage );
 		}
 
 	} );

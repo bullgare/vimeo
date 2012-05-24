@@ -45,7 +45,7 @@
 			if ( model ) {
 				errorMessage = 'error in album `' + model.get( 'title' ) + '`: ' + errorMessage;
 			}
-			alert( errorMessage );
+			Vimeo.Options.showError( errorMessage );
 		},
 
 		// Re-render the titles of the album item.
@@ -105,7 +105,7 @@
 						me.model.clear();
 					}
 					else if ( 'err' in Response ) {
-						me.showError( Response.err.msg + ( 'expl' in Response.err ? ( ': ' + Response.err.expl ) : '' ) );
+						Vimeo.Options.showError( Response );
 					}
 				} );
 		}

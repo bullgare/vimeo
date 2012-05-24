@@ -59,7 +59,7 @@
 			var me = this,
 				tagText = $.trim( this.$( '.js-search-tag' ).val() );
 			if ( ! tagText.length ) {
-				this.showError( 'Please enter tag text' );
+				Vimeo.Options.showError( 'Please enter tag text' );
 			}
 			else
 			{
@@ -75,14 +75,9 @@
 						}
 					} ).
 					error( function () {
-						me.showError( 'error occured, please try again' );
+						Vimeo.Options.showError( 'error occured, please try again' );
 					} );
 			}
-		},
-
-		showError: function ( Message )
-		{
-			alert( Message );
 		}
 
 	} );
