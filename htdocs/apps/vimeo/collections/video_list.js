@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * Video Collection
+ */
 	Vimeo.Collections.VideoList = Backbone.Collection.extend( {
 
 		model: Vimeo.Models.Video,

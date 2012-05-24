@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * Router
+ */
 	Vimeo.Routers.Main = Backbone.Router.extend({
 
 		// Hash maps for routes
@@ -14,6 +17,9 @@
 			'*error': 'error'
 		},
 
+	/**
+	 * Main page
+	 */
 		albumList: function ()
 		{
 			// Create our global collection of **Albums**.
@@ -23,11 +29,19 @@
 			/*var App = */new Vimeo.Views.AlbumList( albums );
 		},
 
+	/**
+	 * Album page
+	 * @param {int} id album id
+	 */
 		album: function ( id )
 		{
 			/*var view = */new Vimeo.Views.Album( id );
 		},
 
+	/**
+	 * All other pages are leading to errors
+	 * @param {string} error uri
+	 */
 		error: function ( error )
 		{
 			alert( 'Page not found' );
