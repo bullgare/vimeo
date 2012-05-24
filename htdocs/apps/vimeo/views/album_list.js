@@ -12,7 +12,7 @@
 
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
-			"click #js-create-new-album-button": "create"
+			"click #js-button-create-album": "create"
 		},
 
 		// At initialization we bind to the relevant events on the `Albums`
@@ -47,11 +47,13 @@
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
-		render: function ()
+		render: function ( EventType )
 		{
 			var totalCount = this.albums.length;
 
-			this.$create.html( this.templateCreate() );
+			if ( EventType === 'add' || _.isEmpty( this.$create.html() ) ) {
+				this.$create.html( this.templateCreate() );
+			}
 
 			this.$inputTitle = $( "#js-new-album-title" );
 			this.$inputVideo = $( "#js-new-album-video" );
@@ -96,35 +98,56 @@
 //				}
 //			);
 
+//			$.post( Vimeo.Options.mainUrl )
+
 			var modelParams = {
 				title: this.$inputTitle.val(),
 				video_id: this.$inputVideo.val(),
 				description: this.$inputDescription.val()
 			};
 
-			this.albums.create(
-				modelParams,
+			$.post( Vimeo.Options.mainUrl,
 				{
-					wait: true,
-					contentType: 'text/plain',
-					data: $.param( { method: 'albums.create', params: $.extend( {}, { user_id: Vimeo.Options.userId }, modelParams ) } ),
-					success: function () {
-						me.$inputTitle.val( '' );
-						me.$inputVideo.val( '' );
-						me.$inputDescription.val( '' );
-					},
-					error: function ( model, response, options ) {
-						me.showError( response.statusText.toString() );
-					}
+					method: "albums.create",
+					params: _.extend( { user_id: Vimeo.Options.userId }, modelParams )
 				}
-			);
+			).
+				success( function ( Response ) {
+					if ( typeof Response !== 'object' ) {
+						Response = JSON.parse( Response );
+					}
+					if ( 'stat' in Response && Response.stat === 'ok' && 'album' in Response ) {
+						me.albums.add( _.extend( { id: Response.album[0].id }, modelParams ) );
+					}
+					else if ( 'err' in Response ) {
+						me.showError( Response.err.msg + ( 'expl' in Response.err ? ( ': ' + Response.err.expl ) : '' ) );
+					}
+				} );
+
+
+
+//			this.albums.create(
+//				modelParams,
+//				{
+//					wait: true,
+//					contentType: 'text/plain',
+//					data: $.param( { method: 'albums.create', params: $.extend( {}, { user_id: Vimeo.Options.userId }, modelParams ) } ),
+//					success: function () {
+//						me.$inputTitle.val( '' );
+//						me.$inputVideo.val( '' );
+//						me.$inputDescription.val( '' );
+//					},
+//					error: function ( model, response, options ) {
+//						me.showError( response.statusText.toString() );
+//					}
+//				}
+//			);
 
 		},
 
 		showError: function ( errorMessage )
 		{
-			console.log( 'error occured: ' + errorMessage );
-			console.log( errorMessage );
+			alert( errorMessage );
 		}
 
 	} );
