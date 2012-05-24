@@ -119,8 +119,11 @@
 								}
 							}
 						).
-							success( function () {
-								me.addOne( model );
+							success( function ()
+							{
+								var modelToAdd = _.clone( model );
+								modelToAdd.set( { smallSize: false } );
+								me.addOne( modelToAdd );
 							} );
 					} );
 				this.$( '.js-search-results' ).append( view.render().$el );
