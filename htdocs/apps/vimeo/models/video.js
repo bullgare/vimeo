@@ -38,6 +38,7 @@
 			if ( model.hasChanged() )
 			{
 				if ( model.hasChanged( 'is_like' ) ) {
+				// TODO: fix like param storing (looks like server problem)
 					$.post( this.url, { method: "videos.setLike", params: { user_id: Vimeo.Options.userId, video_id: model.get( 'id' ), is_like: !! parseInt( model.get( 'is_like' ) ) } } );
 				}
 			}
