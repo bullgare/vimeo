@@ -13,6 +13,7 @@
 			'click .js-search-button-find': 'findVideos'
 		},
 
+	// TODO album not found
 		initialize: function ( Videos, AlbumId )
 		{
 			this.collection = Videos;

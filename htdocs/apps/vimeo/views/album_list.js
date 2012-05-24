@@ -12,7 +12,7 @@
 
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
-			"click #js-button-create-album": "create"
+			"click .js-button-create-album": "create"
 		},
 
 		// At initialization we bind to the relevant events on the `Albums`

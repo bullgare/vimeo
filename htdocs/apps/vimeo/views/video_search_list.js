@@ -1,11 +1,11 @@
 // ns
 	window.Vimeo || ( Vimeo = { Models: {}, Collections: {}, Views: {}, Routers: {}, Options: {} } );
-
+// TODO delete, not used
 (function( Vimeo )
 {
 	"use strict";
 
-	Vimeo.Views.VideoList = Backbone.View.extend( {
+	Vimeo.Views.VideoSearchList = Backbone.View.extend( {
 
 		tagName: 'div',
 

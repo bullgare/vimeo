@@ -16,11 +16,12 @@
 
 		// The DOM events specific to an item.
 		events: {
-			"dblclick .js-view, click a.js-edit": "edit",
-			"click a.js-delete": "clear",
+			"dblclick .js-view": "edit",
+			"click a.js-button-edit": "edit",
+			"click a.js-button-delete": "clear",
 //			"keypress .js-edit": "updateOnEnter",
-			"click .js-save-button": "onSave",
-			"click .js-cancel-button": "onCancel"
+			"click .js-button-save": "onSave",
+			"click .js-button-cancel": "onCancel"
 		},
 
 		initialize: function ()
@@ -35,7 +36,16 @@
 
 		showError: function ( model, errorMessage )
 		{
-			alert( 'error in album `' + model.get( 'title' ) + '`: ' + errorMessage );
+			if ( ! errorMessage && typeof model === 'string' )
+			{
+				errorMessage = model;
+				model = null;
+			}
+
+			if ( model ) {
+				errorMessage = 'error in album `' + model.get( 'title' ) + '`: ' + errorMessage;
+			}
+			alert( errorMessage );
 		},
 
 		// Re-render the titles of the album item.
@@ -56,7 +66,7 @@
 		// Close the `"editing"` mode, saving changes to the album.
 		onSave: function ()
 		{
-			this.model.set( {title: this.$title.val(), description: $( '.js-description' ).val()} );
+			this.model.set( {title: this.$title.val(), description: this.$( '.js-description' ).val()} );
 //			this.model.save( {title: this.$title.val(), description: $( '.js-description' ).val()} );
 			this.$el.removeClass( "editing" );
 		},
@@ -79,7 +89,25 @@
 		// Remove the item, destroy the model.
 		clear: function ()
 		{
-			this.model.clear();
+			var me = this;
+
+			$.post( Vimeo.Options.mainUrl,
+				{
+					method: "albums.delete",
+					params: { user_id: Vimeo.Options.userId, album_id: me.model.get( 'id' ) }
+				}
+			).
+				success( function ( Response ) {
+					if ( typeof Response !== 'object' ) {
+						Response = JSON.parse( Response );
+					}
+					if ( 'stat' in Response && Response.stat === 'ok' ) {
+						me.model.clear();
+					}
+					else if ( 'err' in Response ) {
+						me.showError( Response.err.msg + ( 'expl' in Response.err ? ( ': ' + Response.err.expl ) : '' ) );
+					}
+				} );
 		}
 
 	} );
