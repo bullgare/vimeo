@@ -5,15 +5,13 @@
 {
 	"use strict";
 
-	// Album Model
-
-	// Our basic **Album** model has `title`, and `order` attributes.
+/**
+ * Album Model
+ */
 	Vimeo.Models.Album = Backbone.Model.extend( {
 
 		url: Vimeo.Options.mainUrl,
-//			url: '/',
 
-		// Default attributes for the album item.
 		defaults: function ()
 		{
 			return {
@@ -37,40 +35,61 @@
 			this.bind( 'change', this.onChange );
 		},
 
-	// Empty title is not allowed
+	/**
+	 * Empty title and video id is not allowed
+	 * @param {Object} attrs new model attributes
+	 * @return {String}
+	 */
 		validate: function ( attrs )
 		{
 			if ( ! $.trim( attrs.title ).length ) {
 				return 'Empty title is not allowed';
 			}
+			if ( ! parseInt( attrs.video_id ) > 0 ) {
+				return 'Please provide a valid video id';
+			}
 		},
 
-		onChange: function ( model, options )
+	/**
+	 * This is used to replace sync for actual sending requests
+	 *
+	 * @param Backbone.Model Model
+	 * @param {Object} Options
+	 */
+		onChange: function ( Model, Options )
 		{
-			if ( model.hasChanged() )
+			if ( Model.hasChanged() )
 			{
-				if ( model.hasChanged( 'title' ) ) {
-					$.post( this.url, { method: "albums.setTitle", params: { user_id: Vimeo.Options.userId, album_id: model.get( 'id' ), title: model.escape( 'title' ) } } );
+				if ( Model.hasChanged( 'title' ) ) {
+					$.post( this.url, { method: "albums.setTitle", params: { user_id: Vimeo.Options.userId, album_id: Model.get( 'id' ), title: Options.escape( 'title' ) } } );
 				}
-				if ( model.hasChanged( 'description' ) ) {
-					$.post( this.url, { method: "albums.setDescription", params: { user_id: Vimeo.Options.userId, album_id: model.get( 'id' ), description: model.escape( 'description' ) } } );
+				if ( Model.hasChanged( 'description' ) ) {
+					$.post( this.url, { method: "albums.setDescription", params: { user_id: Vimeo.Options.userId, album_id: Model.get( 'id' ), description: Options.escape( 'description' ) } } );
 				}
 			}
 		},
 
-		sync: function ( method, model, options )
+	/**
+	 * Overriden to prevent simple save requests
+	 * @param {string} Method
+	 * @param Backbone.Model Model
+	 * @param {Object} Options
+	 */
+	sync: function ( Method, Model, Options )
 		{
-			if ( ! model.get( 'id' ) ) {
-				Backbone.sync( method, model, options );
+			if ( ! Model.get( 'id' ) ) {
+				Backbone.sync( Method, Model, Options );
 			}
 			else
 			{
 			// see onChange method - no sync for update and delete
-				this.trigger( method );
+				this.trigger( Method );
 			}
 		},
 
-		// Remove this Album and delete its view.
+	/**
+	 * Remove this Album and delete its view
+	 */
 		clear: function ()
 		{
 			this.destroy();

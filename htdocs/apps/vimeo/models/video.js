@@ -5,6 +5,9 @@
 {
 	"use strict";
 
+/**
+ * Video Model
+ */
 	Vimeo.Models.Video = Backbone.Model.extend( {
 
 		url: Vimeo.Options.mainUrl,
@@ -22,23 +25,33 @@
 			this.bind( 'change', this.onChange );
 		},
 
+	/**
+	 * Remove video from album (used for proper traversing model to album)
+	 */
 		removeFromAlbum: function ()
 		{
 			this.trigger( 'remove_from_album', this );
 		},
 
+	/**
+	 * Invoked after removing video from it's album collection to remove it from DOM
+	 */
 		onAfterRemoveFromAlbum: function ()
 		{
 			this.trigger( 'removed_from_album', this );
 		},
-
-		onChange: function ( model, options )
+		/**
+		 * Used to set like on video
+		 * TODO: fix like param storing (looks like server problem)
+		 * @param Backbone.Model Model
+		 * @param {Object} Options
+		 */
+		onChange: function ( Model, Options )
 		{
-			if ( model.hasChanged() )
+			if ( Model.hasChanged() )
 			{
-				if ( model.hasChanged( 'is_like' ) ) {
-				// TODO: fix like param storing (looks like server problem)
-					$.post( this.url, { method: "videos.setLike", params: { user_id: Vimeo.Options.userId, video_id: model.get( 'id' ), is_like: !! parseInt( model.get( 'is_like' ) ) } } );
+				if ( Model.hasChanged( 'is_like' ) ) {
+					$.post( this.url, { method: "videos.setLike", params: { user_id: Vimeo.Options.userId, video_id: Model.get( 'id' ), is_like: !! parseInt( Model.get( 'is_like' ) ) } } );
 				}
 			}
 		}
