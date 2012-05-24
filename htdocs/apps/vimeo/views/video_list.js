@@ -10,10 +10,10 @@
 		tagName: 'div',
 
 		events: {
-			'click .js-search-button-find': 'findVideos'
+			'click .js-search-button-find': 'findVideos',
+			'click .js-search-cancel': 'closeSearchResults'
 		},
 
-	// TODO album not found
 		initialize: function ( Videos, AlbumId )
 		{
 			this.collection = Videos;
@@ -28,6 +28,8 @@
 
 			this.collection.fetch( { data: { method: "albums.getVideos", params: { user_id: Vimeo.Options.userId, album_id: this.albumId } } } );
 
+			this.collectionSearchVideos = new Vimeo.Collections.VideoList;
+
 //			this.model = new ModelObj( { id: ModelId } );
 //			this.model.fetch( {data: { method: "albums.getAll", params: { user_id: Vimeo.Options.userId } } } );
 
@@ -40,6 +42,8 @@
 				this.$el.html( this.template() );
 				this.alreadyRendered = true;
 			}
+
+			this.$buttonHide = this.$( '.js-search-cancel' );
 			return this;
 		},
 
@@ -66,7 +70,6 @@
 			{
 				$.post( Vimeo.Options.mainUrl, { method: "videos.getByTag", params: { user_id: Vimeo.Options.userId, tag: tagText, per_page: 10 }, dataType: 'json' } ).
 					success( function ( Response ) {
-						var $buttonHide = me.$( '.js-search-cancel' );
 						if ( typeof Response !== 'object' ) {
 							Response = JSON.parse( Response );
 						}
@@ -81,15 +84,14 @@
 									return _.extend( Video, { smallSize: true } );
 								} );
 
-								var videoList = new Vimeo.Collections.VideoList;
-								videoList.reset( videosData );
-								me.showSearchResults( videoList );
-								$buttonHide.show();
+								me.collectionSearchVideos.reset( videosData );
+								me.showSearchResults( me.collectionSearchVideos );
+								me.$buttonHide.show();
 							}
 							else
 							{
 								me.$( '.js-search-results' ).text( 'Nothing found' );
-								$buttonHide.hide();
+								me.$buttonHide.hide();
 							}
 						}
 					} ).
@@ -123,6 +125,13 @@
 					} );
 				this.$( '.js-search-results' ).append( view.render().$el );
 			}, this );
+		},
+
+		closeSearchResults: function ()
+		{
+			this.collectionSearchVideos.remove( this.collection.models );
+			this.$( '.js-search-results' ).empty();
+			this.$buttonHide.hide();
 		}
 
 	} );
