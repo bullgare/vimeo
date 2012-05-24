@@ -56,8 +56,8 @@
 
 		<script type="text/template" id="_-template-album-short">
 			<div class="js-view view">
-				<a href="javascript:void(0)" class="js-button-delete control">delete</a>
-				<a href="javascript:void(0)" class="js-button-edit control">edit</a>
+				<a href="javascript:void(0)" class="js-button-delete button-control">delete</a>
+				<a href="javascript:void(0)" class="js-button-edit button-control">edit</a>
 				<br />
 				<a href="/albums/<%= id %>"><b><%= title %></b></a>
 				<p><%= description %></p>
@@ -65,8 +65,8 @@
 			<div class="js-edit edit">
 				<input class="js-title" type="text" value="<%= title %>" />
 				<input class="js-description" type="text" value="<%= description %>" />
-				<a href="javascript:void(0)" class="js-button-save control">save</a>
-				<a href="javascript:void(0)" class="js-button-cancel control">cancel</a>
+				<a href="javascript:void(0)" class="js-button-save button-control">save</a>
+				<a href="javascript:void(0)" class="js-button-cancel button-control">cancel</a>
 			</div>
 		</script>
 
@@ -83,8 +83,8 @@
 
 		<script type="text/template" id="_-template-video-rest">
 			<div class="js-video-rest">
-				<a href="javascript:void(0)" class="js-button-delete control">delete</a>
-				<a href="javascript:void(0)" class="js-button-like control like<% if ( is_like ) {%> liked js-liked<%}%>"><% if ( is_like ) {%>un<%}%>like</a>
+				<a href="javascript:void(0)" class="js-button-delete button-control">delete</a>
+				<a href="javascript:void(0)" class="js-button-like button-control like<% if ( is_like ) {%> liked js-liked<%}%>"><% if ( is_like ) {%>un<%}%>like</a>
 				<br />
 				<%= title %>
 			</div>
@@ -92,7 +92,7 @@
 
 		<script type="text/template" id="_-template-video-rest-for-search">
 			<div class="js-video-rest">
-				<a href="javascript:void(0)" class="js-button-add control">add to album</a>
+				<a href="javascript:void(0)" class="js-button-add button-control">add to album</a>
 				<%= title %>
 			</div>
 		</script>
@@ -103,7 +103,7 @@
 				Search by tag:
 				<input type="text" class="js-search-tag" />
 				<input type="button" class="js-search-button-find" value="find" />
-				<a href="javascript:void(0)" class="js-search-cancel control" style="display: none;">hide results</a>
+				<a href="javascript:void(0)" class="js-search-cancel button-control" style="display: none;">hide results</a>
 				<ul class="js-search-results"></ul>
 			</div>
 		</script>
@@ -114,7 +114,7 @@
 				Title*: <input id="js-new-album-title" type="text" /><br />
 				Video ID*: <input id="js-new-album-video" type="text" /><br />
 				Description: <input id="js-new-album-description" type="text" /><br />
-				<a href="javascript:void(0)" class="js-button-create-album control">create</a>
+				<a href="javascript:void(0)" class="js-button-create-album button-control">create</a>
 		</script>
 
 		<script type="text/template" id="_-template-header-main">

@@ -13,3 +13,10 @@
 .editing .view {
 	display: none;
 }
+
+a.button-control {
+	margin: 0 0.5em;
+	padding: 0 0.5em;
+	color: gray;
+	background-color: yellow;
+}
