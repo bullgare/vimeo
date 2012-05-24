@@ -38,7 +38,7 @@
 			if ( model.hasChanged() )
 			{
 				if ( model.hasChanged( 'is_like' ) ) {
-					$.post( this.url, { method: "videos.setLike", params: { user_id: Vimeo.Options.userId, video_id: model.get( 'id' ), is_like: ! model.get( 'is_like' ) } } );
+					$.post( this.url, { method: "videos.setLike", params: { user_id: Vimeo.Options.userId, video_id: model.get( 'id' ), is_like: !! parseInt( model.get( 'is_like' ) ) } } );
 				}
 			}
 		}
