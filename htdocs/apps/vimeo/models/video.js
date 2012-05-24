@@ -26,6 +26,17 @@
 		},
 
 	/**
+	 * Overriden to prevent simple save requests
+	 * @param {string} Method
+	 * @param {Vimeo.Models.Video} Model
+	 * @param {Object} Options
+	 */
+		sync: function ( Method, Model, Options )
+		{
+			this.trigger( Method );
+		},
+
+	/**
 	 * Remove video from album (used for proper traversing model to album)
 	 */
 		removeFromAlbum: function ()
@@ -38,6 +49,7 @@
 	 */
 		onAfterRemoveFromAlbum: function ()
 		{
+			this.destroy();
 			this.trigger( 'removed_from_album', this );
 		},
 		/**

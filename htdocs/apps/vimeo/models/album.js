@@ -75,7 +75,7 @@
 	 * @param Backbone.Model Model
 	 * @param {Object} Options
 	 */
-	sync: function ( Method, Model, Options )
+		sync: function ( Method, Model, Options )
 		{
 			if ( ! Model.get( 'id' ) ) {
 				Backbone.sync( Method, Model, Options );

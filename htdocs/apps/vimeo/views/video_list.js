@@ -27,8 +27,8 @@
 			this.collection = Videos;
 			this.albumId = AlbumId;
 
-			this.collection.bind( 'add', this.addOne, this );
-			this.collection.bind( 'reset', this.addAll, this );
+			this.collection.on( 'add', this.addOne, this );
+			this.collection.on( 'reset', this.addAll, this );
 
 			this.template = _.template( $( '#_-template-video-list' ).html() );
 			this.render();
@@ -92,6 +92,8 @@
 						{
 							var videosData = Response.videos.video;
 
+							me.closeSearchResults();
+
 							if ( videosData.length )
 							{
 								videosData = _.map( videosData, function ( Video ) {
@@ -126,6 +128,8 @@
 			var me = this;
 			VideoList.each( function ( Video ) {
 				var view = new Vimeo.Views.VideoForSearch( { model: Video } );
+
+			// add video to album
 				view.
 					on( 'add_to_album', function ( model ) {
 						$.post( Vimeo.Options.mainUrl,

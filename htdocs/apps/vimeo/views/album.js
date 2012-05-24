@@ -25,11 +25,12 @@
 			this.model = new Vimeo.Models.Album( { id: ModelId } );
 			var collectionVideos = new Vimeo.Collections.VideoList;
 
-			collectionVideos.on( 'reset add', this.render, this );
+//			collectionVideos.on( 'reset add', this.render, this );
 			collectionVideos.on( 'remove_from_album', this.removeVideo, this );
 			collectionVideos.on( 'error404', this.clearPage, this );
 
 			this.viewVideoList = new Vimeo.Views.VideoList( collectionVideos, ModelId );
+			this.render();
 		},
 
 		render: function ()
