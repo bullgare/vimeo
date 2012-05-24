@@ -74,7 +74,7 @@
 				<iframe
 					src="http://player.vimeo.com/video/<%= id %>"
 					width="<% if ( smallSize ) {%>200<%} else {%>500<%}%>"
-					height="<% if ( smallSize ) {%>56<%} else {%>281<%}%>"
+					height="<% if ( smallSize ) {%>112<%} else {%>281<%}%>"
 					frameborder="0"
 					webkitAllowFullScreen
 					mozallowfullscreen
@@ -84,7 +84,7 @@
 		<script type="text/template" id="_-template-video-rest">
 			<div class="js-video-rest">
 				<a href="javascript:void(0)" class="js-button-delete button-control">delete</a>
-				<a href="javascript:void(0)" class="js-button-like button-control like<% if ( is_like ) {%> liked js-liked<%}%>"><% if ( is_like ) {%>un<%}%>like</a>
+				<a href="javascript:void(0)" class="js-button-like button-control like<% if ( is_like != 0 ) {%> liked js-liked<%}%>"><% if ( is_like != 0 ) {%>un<%}%>like</a>
 				<br />
 				<%= title %>
 			</div>
@@ -98,7 +98,7 @@
 		</script>
 
 		<script type="text/template" id="_-template-video-list">
-			<ul class="js-videos"></ul>
+			<ul class="js-videos album-videos"></ul>
 			<div>
 				Search by tag:
 				<input type="text" class="js-search-tag" />
