@@ -8,6 +8,9 @@
 	Vimeo.Views.Video = Backbone.View.extend( {
 
 		tagName: 'li',
+		attributes: {
+			class: 'video'
+		},
 
 		events: {
 			"click a.js-button-delete": "onDelete",

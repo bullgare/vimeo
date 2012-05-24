@@ -20,3 +20,7 @@ a.button-control {
 	color: gray;
 	background-color: yellow;
 }
+
+.album-videos .video {
+	padding-top: 1em;
+}
