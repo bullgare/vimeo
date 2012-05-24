@@ -11,6 +11,11 @@
 
 		url: Vimeo.Options.mainUrl,
 
+	/**
+	 * Parsing vimeo's response to filter out crappy fields
+	 * @param Response
+	 * @return {*}
+	 */
 		parse: function ( Response )
 		{
 			if ( 'videos' in Response && 'video' in Response.videos ) {
