@@ -29,7 +29,6 @@
 
 		onAfterRemoveFromAlbum: function ()
 		{
-			debugger;
 			this.trigger( 'removed_from_album', this );
 		},
 
