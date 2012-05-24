@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" />
+		<script type="text/javascript" src="jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="json2.js"></script>
+		<script type="text/javascript" src="underscore.js"></script>
+		<script type="text/javascript" src="./backbone.js"></script>
+		<script type="text/javascript" src="./backbone.localStorage.js"></script>
+	</head>
+	<body>
+		<div id="js-tags-wrapper">
+
+			<header>
+				<h1>Tags</h1>
+				<input id="js-new-tag" type="text" placeholder="create a tag" />
+			</header>
+
+			<section id="js-main">
+				<ul id="js-tag-list"></ul>
+			</section>
+
+			<!--section id="main">
+				<input id="toggle-all" type="checkbox"> <label for="toggle-all">Mark all as complete</label>
+				<ul id="todo-list"></ul>
+			</section-->
+
+			<footer id="js-footer">
+				<div id="tags-count"></div>
+			</footer>
+
+		</div>
+
+		<div id="instructions">
+			Double-click to edit a tag.
+		</div>
+
+		<!-- Templates -->
+
+		<script type="text/template" id="_-template-item">
+			<div class="js-view">
+				<a class="js-delete">delete</a>
+				<a class="js-edit">edit</a>
+			</div>
+			<input class="js-edit" type="text" value="<%= title %>" />
+		</script>
+
+		<script type="text/template" id="_-template-stats">
+			<div class="tags-count"><b><%= totalCount %></b> <%= totalCount == 1 ? 'tag' : 'tags' %> at all</div>
+		</script>
+		<script type="text/javascript" src="tags.js"></script>
+	</body>
+</html>

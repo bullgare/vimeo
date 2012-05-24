@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="/style.css" />
+		<script type="text/javascript" src="/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="/json2.js"></script>
+		<script type="text/javascript" src="/underscore.js"></script>
+		<script type="text/javascript" src="/backbone.js"></script>
+		<script type="text/javascript" src="/vimeo.options.js"></script>
+
+		<script type="text/javascript" src="/vimeo.models.album.js"></script>
+		<script type="text/javascript" src="/vimeo.models.video.js"></script>
+
+		<script type="text/javascript" src="/vimeo.collections.album_list.js"></script>
+		<script type="text/javascript" src="/vimeo.collections.video_list.js"></script>
+
+		<script type="text/javascript" src="/vimeo.views.album.js"></script>
+		<script type="text/javascript" src="/vimeo.views.album_short.js"></script>
+		<script type="text/javascript" src="/vimeo.views.album_list.js"></script>
+		<script type="text/javascript" src="/vimeo.views.video_list.js"></script>
+		<script type="text/javascript" src="/vimeo.views.video.js"></script>
+		<script type="text/javascript" src="/vimeo.views.video_for_search.js"></script>
+
+		<script type="text/javascript" src="/vimeo.routers.main.js"></script>
+<!--		<script type="text/javascript" src="/backbone.localStorage.js"></script>-->
+		<script type="text/javascript">
+			(function( $ )
+			{
+				"use strict";
+
+				$( document ).ready( function () {
+					var router = new Vimeo.Routers.Main();
+					Backbone.history.start( { pushState: true } );
+				} );
+
+//				$.get("http://new.undev.ru/vimeo/api.json", {"method": "albums.getAll", "params": {"user_id": "9580389"}});
+//				$.ajax("/", {"method": "albums.getAll", "params": {"user_id": "9580389"}, type: 'PUT' });
+//				$.ajax("http://new.undev.ru/vimeo/api.json", {"method": "albums.getAll", "params": {"user_id": "9580389"}, type: 'PUT' });
+			}( jQuery ));
+		</script>
+	</head>
+	<body>
+		<div id="js-albums-wrapper">
+
+			<header>
+				<h1>Vimeo albums</h1>
+				<div id="js-create-new-album"></div>
+			</header>
+
+			<section id="js-main">
+				<ul id="js-album-list"></ul>
+			</section>
+
+			<footer id="js-footer">
+			</footer>
+
+		</div>
+
+		<div id="instructions">
+			Double-click to edit an album.
+		</div>
+
+		<!-- Templates -->
+
+		<script type="text/template" id="_-template-album-short">
+			<div class="js-view view">
+				<a class="js-delete">delete</a>
+				<a class="js-edit">edit</a>
+				<br />
+				<a href="/albums/<%= id %>"><b><%= title %></b></a>
+				<p><%= description %></p>
+			</div>
+			<div class="js-edit edit">
+				<input class="js-title" type="text" value="<%= title %>" />
+				<input class="js-description" type="text" value="<%= description %>" />
+				<a href="javascript:void(0)" class="js-save-button">save</a>
+				<a href="javascript:void(0)" class="js-cancel-button">cancel</a>
+			</div>
+		</script>
+
+		<script type="text/template" id="_-template-video-video">
+				<iframe
+					src="http://player.vimeo.com/video/<%= id %>"
+					width="<% if ( smallSize ) {%>200<%} else {%>500<%}%>"
+					height="<% if ( smallSize ) {%>56<%} else {%>281<%}%>"
+					frameborder="0"
+					webkitAllowFullScreen
+					mozallowfullscreen
+					allowFullScreen></iframe>
+		</script>
+
+		<script type="text/template" id="_-template-video-rest">
+			<div class="js-video-rest">
+				<a class="js-button-delete">delete</a>
+				<a class="js-button-like like<% if ( is_like ) {%> liked js-liked<%}%>"><% if ( is_like ) {%>un<%}%>like</a>
+				<br />
+				<%= title %>
+			</div>
+		</script>
+
+		<script type="text/template" id="_-template-video-rest-for-search">
+			<div class="js-video-rest">
+				<a class="js-button-add">add to album</a>
+				<%= title %>
+			</div>
+		</script>
+
+		<script type="text/template" id="_-template-video-list">
+			<ul class="js-videos"></ul>
+			<div>
+				Video id:
+				<input type="text" class="js-video_id" />
+				<input type="button" class="js-button-video_add" value="add" />
+
+				Search by tag:
+				<input type="text" class="js-search-tag" />
+				<input type="button" class="js-search-button-find" value="find" />
+				<a href="javascript:void(0)" class="js-search-cancel" style="display: none;">hide results</a>
+				<ul class="js-search-results"></ul>
+			</div>
+		</script>
+
+		<script type="text/template" id="_-template-album-create">
+				Title*: <input id="js-new-album-title" type="text" /><br />
+				Video ID*: <input id="js-new-album-video" type="text" /><br />
+				Description: <input id="js-new-album-description" type="text" /><br />
+				<a href="javascript:void(0)" id="js-create-new-album-button">create</a>
+		</script>
+
+		<script type="text/template" id="_-template-album-stats">
+			<div class="albums-count">
+				<b><%= totalCount %></b> <%= totalCount == 1 ? 'album' : 'albums' %> at all
+			</div>
+		</script>
+<!--		<script type="text/javascript" src="vimeo.js"></script>-->
+	</body>
+</html>
